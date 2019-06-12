@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  api:
+    container_name: backend
+    build: ./
+    command: npm run dev
+    working_dir: /usr/src/project-management
+    environment: 
+      POSTGRES_URI: postgres://john:secret@postgres:5432/project-management
+    depends_on:
+          - postgres
+    ports:
+          - "5000:5000"
+    volumes: 
+          - ./:/usr/src/project-management
+  postgres: 
+    environment: 
+      POSTGRES_USER: john
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: project-management
+      POSTGRES_HOST: postgres
+    image: postgres:11
+    volumes: 
+      - ./pgdata:/var/lib/postgresql/data
+    ports: 
+      - "5432:5432"
+ 
